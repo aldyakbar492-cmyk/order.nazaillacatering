@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Nazaila Catering | Scroll Animation Experience</title>
+    <!-- Bootstrap 5 CSS + Icons + Google Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Google Fonts: Inter & Poppins for modern clean look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #ffffff;
+        color: #1e1e2a;
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      .navbar-brand,
+      .btn {
+        font-family: "Poppins", sans-serif;
+      }
+
+      :root {
+        --primary-gold: #f9c74f;
+        --primary-dark: #f9844a;
+        --secondary-soft: #f8f9fa;
+        --text-dark: #2d3436;
+        --card-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+        --hover-transition: all 0.25s ease-in-out;
+      }
+
+      /* ========== SCROLL ANIMATION BASE ========== */
+      .scroll-reveal {
+        opacity: 0;
+        transform: translateY(35px);
+        transition:
+          opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1),
+          transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+        will-change: opacity, transform;
+      }
+
+      .scroll-reveal.revealed {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      /* different variations for staggered effect */
+      .scroll-reveal-left {
+        opacity: 0;
+        transform: translateX(-40px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      }
+      .scroll-reveal-left.revealed {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .scroll-reveal-right {
+        opacity: 0;
+        transform: translateX(40px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      }
+      .scroll-reveal-right.revealed {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .scroll-reveal-up {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1),
+          transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      }
+      .scroll-reveal-up.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* zoom subtle effect for images */
+      .scroll-reveal-zoom {
+        opacity: 0;
+        transform: scale(0.96);
+        transition:
+          opacity 0.8s ease,
+          transform 0.6s cubic-bezier(0.2, 0.8, 0.4, 1);
+      }
+      .scroll-reveal-zoom.revealed {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* Navbar */
+      .navbar {
+        background-color: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(2px);
+        padding: 1rem 0;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.02);
+        transition: var(--hover-transition);
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.8rem;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, #f9c74f, #f9844a);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .navbar-nav .nav-link {
+        font-weight: 500;
+        color: #2c3e50;
+        margin: 0 0.5rem;
+        transition: var(--hover-transition);
+        font-size: 1rem;
+      }
+
+      .navbar-nav .nav-link:hover,
+      .navbar-nav .nav-link.active {
+        color: #f9844a;
+      }
+
+      /* Hero */
+      .hero-section {
+        padding: 5rem 0 4rem 0;
+        background: linear-gradient(145deg, #fff9f0 0%, #ffffff 100%);
+      }
+
+      .hero-title {
+        font-size: 3.2rem;
+        font-weight: 800;
+        line-height: 1.2;
+        background: linear-gradient(to right, #2d3436, #f9844a);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-text {
+        font-size: 1.1rem;
+        color: #4a5568;
+        margin-bottom: 2rem;
+      }
+
+      .btn-primary-custom {
+        background: #f9c74f;
+        border: none;
+        padding: 0.8rem 2rem;
+        font-weight: 600;
+        border-radius: 40px;
+        color: #1e1e2a;
+        transition: var(--hover-transition);
+        box-shadow: 0 4px 10px rgba(249, 199, 79, 0.3);
+      }
+
+      .btn-primary-custom:hover {
+        background: #f9844a;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 20px rgba(249, 132, 74, 0.25);
+      }
+
+      .hero-image {
+        border-radius: 40px;
+        box-shadow: 0 30px 40px -20px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .hero-image:hover {
+        transform: scale(1.02);
+      }
+
+      /* section headings */
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title:after {
+        content: "";
+        position: absolute;
+        bottom: -12px;
+        left: 0;
+        width: 70px;
+        height: 4px;
+        background: linear-gradient(90deg, #f9c74f, #f9844a);
+        border-radius: 4px;
+      }
+
+      .section-sub {
+        color: #5a6e7c;
+        margin-bottom: 2.5rem;
+        font-size: 1.1rem;
+      }
+
+      /* menu card */
+      .menu-card {
+        border: none;
+        border-radius: 28px;
+        overflow: hidden;
+        transition: var(--hover-transition);
+        background: #ffffff;
+        box-shadow: var(--card-shadow);
+        cursor: pointer;
+      }
+
+      .menu-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 30px 35px -15px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-img-top {
+        height: 220px;
+        object-fit: cover;
+        transition: transform 0.4s;
+      }
+
+      .menu-card:hover .card-img-top {
+        transform: scale(1.03);
+      }
+
+      /* Visi Misi card style */
+      .vision-card {
+        background: #fef9ef;
+        border-radius: 2rem;
+        padding: 2rem 1.8rem;
+        transition: var(--hover-transition);
+        height: 100%;
+        border: 1px solid rgba(249, 199, 79, 0.3);
+        box-shadow: var(--card-shadow);
+      }
+      .vision-card:hover {
+        transform: translateY(-6px);
+        background: white;
+        border-color: #f9c74f;
+      }
+      .vision-icon {
+        font-size: 2.8rem;
+        color: #f9844a;
+        margin-bottom: 1.2rem;
+      }
+      .misi-list {
+        list-style: none;
+        padding-left: 0;
+      }
+      .misi-list li {
+        margin-bottom: 0.9rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .misi-list li i {
+        color: #f9c74f;
+        font-size: 1.2rem;
+        margin-top: 0.2rem;
+        min-width: 24px;
+      }
+
+      /* promo banner */
+      .promo-banner {
+        background: linear-gradient(115deg, #ffefcf 0%, #ffe3b5 100%);
+        border-radius: 48px;
+        padding: 3rem 2rem;
+      }
+
+      .promo-badge {
+        background: #f9844a;
+        color: white;
+        border-radius: 50px;
+        padding: 0.3rem 1.2rem;
+        display: inline-block;
+        font-weight: 600;
+        font-size: 0.8rem;
+      }
+
+      /* experience & excellence section custom */
+      .experience-card {
+        background: white;
+        border-radius: 28px;
+        padding: 1.8rem;
+        height: 100%;
+        transition: var(--hover-transition);
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(249, 199, 79, 0.25);
+      }
+      .experience-card:hover {
+        transform: translateY(-6px);
+        border-color: #f9c74f;
+      }
+      .excellence-list {
+        list-style: none;
+        padding-left: 0;
+      }
+      .excellence-list li {
+        margin-bottom: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 500;
+      }
+      .excellence-list li i {
+        color: #f9c74f;
+        font-size: 1.3rem;
+        width: 28px;
+      }
+      .event-badge {
+        background: #fef3e2;
+        border-radius: 40px;
+        padding: 0.6rem 1.2rem;
+        margin-bottom: 0.8rem;
+        display: inline-block;
+        font-weight: 500;
+      }
+      .footer {
+        background-color: #111111;
+        color: #e2e8f0;
+        padding: 3rem 0 1rem 0;
+        margin-top: 4rem;
+      }
+      .footer a {
+        color: #f9c74f;
+        text-decoration: none;
+        transition: var(--hover-transition);
+      }
+      .footer a:hover {
+        color: #f9844a;
+      }
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.4rem;
+        }
+        .section-title {
+          font-size: 2rem;
+        }
+        .promo-banner {
+          text-align: center;
+        }
+      }
+
+      /* additional stagger for menu items */
+      .menu-card {
+        transition-delay: 0s;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+          <a class="navbar-brand" href="#">Nazaiila<span style="color: #f9844a">Catering</span></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
+              <li class="nav-item"><a class="nav-link" href="#visimisi">Visi & Misi</a></li>
+              <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+              <li class="nav-item"><a class="nav-link" href="#promo">Promo</a></li>
+              <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO SECTION (with initial slideInDown/Left/Right but also scroll reveal protection) -->
+      <section id="home" class="hero-section">
+        <div class="container">
+          <div class="row align-items-center g-5">
+            <div class="col-lg-6 scroll-reveal-left" data-delay="0.1">
+              <div class="pe-lg-4">
+                <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill" style="background: #f9c74f">✨ Halal & Premium</span>
+                <h1 class="hero-title">Menerima<br />Pesanan <span style="color: #f9844a">Catering</span></h1>
+                <p class="hero-text">
+                  Nazailla Catering adalah usaha jasa penyedia makanan yang melayani kebutuhan konsumsi untuk berbagai acara, baik skala kecil maupun besar. Kami mengutamakan kehalalan, kebersihan, cita rasa, serta ketepatan waktu, sehingga
+                  cocok untuk acara keluarga, keagamaan, maupun kegiatan formal.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                  <a href="#menu" class="btn btn-primary-custom">Explore Menu <i class="fas fa-arrow-right ms-2"></i></a>
+                  <a href="https://wa.me/6283829671576?text=Halo%20Nazaila%20Catering" class="btn btn-outline-secondary rounded-pill px-4">Order Now</a>
+                </div>
+                <div class="row mt-5">
+                  <div class="col-4">
+                    <h4 class="fw-bold mb-0">120+</h4>
+                    <small class="text-secondary">Signature dishes</small>
+                  </div>
+                  <div class="col-4">
+                    <h4 class="fw-bold mb-0">15+</h4>
+                    <small class="text-secondary">Years exp.</small>
+                  </div>
+                  <div class="col-4">
+                    <h4 class="fw-bold mb-0">4.9⭐</h4>
+                    <small class="text-secondary">Customer love</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 scroll-reveal-right" data-delay="0.2">
+              <img class="hero-image img-fluid" src="logo.jpeg" alt="Nazaila catering modern food" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MENU SECTION -->
+      <section id="menu" class="py-5">
+        <div class="container py-4">
+          <div class="text-center mb-5 scroll-reveal-up" data-delay="0.1">
+            <h2 class="section-title">Menu</h2>
+            <p class="section-sub">Beberapa menu yang menjadi favorit pelanggan:</p>
+          </div>
+          <div class="row g-4">
+            <div class="col-md-6 col-lg-4 scroll-reveal-up" data-delay="0.05">
+              <article class="card menu-card h-100">
+                <img src="1.jpeg" class="card-img-top" alt="Signature Dish" />
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4 scroll-reveal-up" data-delay="0.1">
+              <article class="card menu-card h-100">
+                <img src="2.jpeg" class="card-img-top" alt="Special Menu" />
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4 scroll-reveal-up" data-delay="0.15">
+              <article class="card menu-card h-100">
+                <img src="3.jpeg" class="card-img-top" alt="Nasi Box" />
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4 scroll-reveal-up" data-delay="0.2">
+              <article class="card menu-card h-100">
+                <img src="4.jpeg" class="card-img-top" alt="Ayam Bakar" />
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4 scroll-reveal-up" data-delay="0.25">
+              <article class="card menu-card h-100">
+                <img src="5.jpeg" class="card-img-top" alt="Tumpeng Mini" />
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4 scroll-reveal-up" data-delay="0.3">
+              <article class="card menu-card h-100">
+                <img src="6.jpeg" class="card-img-top" alt="Dessert" />
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISI & MISI -->
+      <section id="visimisi" class="py-5" style="background: #ffffff">
+        <div class="container py-3">
+          <div class="text-center mb-5 scroll-reveal-up" data-delay="0.1">
+            <h2 class="section-title">Visi & Misi</h2>
+          </div>
+          <div class="row g-4">
+            <div class="col-md-6 scroll-reveal-left" data-delay="0.1">
+              <div class="vision-card text-center">
+                <div class="vision-icon"><i class="fas fa-eye"></i></div>
+                <h3 class="fw-bold mb-3">Visi</h3>
+                <p class="lead fs-5" style="color: #2d3436">Menjadi usaha catering yang amanah, profesional, dan dipercaya.</p>
+                <div class="mt-3">
+                  <i class="fas fa-star text-warning"></i> <i class="fas fa-star text-warning"></i> <i class="fas fa-star text-warning"></i> <i class="fas fa-star text-warning"></i> <i class="fas fa-star text-warning"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 scroll-reveal-right" data-delay="0.15">
+              <div class="vision-card">
+                <div class="vision-icon"><i class="fas fa-bullhorn"></i></div>
+                <h3 class="fw-bold mb-4 text-center">Misi</h3>
+                <ul class="misi-list">
+                  <li><i class="fas fa-check-circle"></i> <strong>1. Kualitas Premium</strong> – Menyajikan hidangan dengan bahan baku segar, halal, dan bergizi tanpa pengawet.</li>
+                  <li><i class="fas fa-check-circle"></i> <strong>2. Kepuasan Pelanggan</strong> – Memberikan pelayanan ramah, tepat waktu, dan solusi catering yang fleksibel sesuai kebutuhan acara.</li>
+                  <li><i class="fas fa-check-circle"></i> <strong>3. Inovasi Menu</strong> – Mengembangkan kreasi menu fusion yang tetap mempertahankan cita rasa rumahan dan tradisional.</li>
+                  <li><i class="fas fa-check-circle"></i> <strong>4. Keterjangkauan</strong> – Menawarkan paket hemat dengan porsi seimbang, tanpa mengurangi standar kebersihan dan kelezatan.</li>
+                  <li><i class="fas fa-check-circle"></i> <strong>5. Keberkahan & Amanah</strong> – Menjalankan usaha dengan integritas, mengutamakan kehalalan, dan menjadi mitra terpercaya untuk acara keagamaan & sosial.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-5 scroll-reveal-up" data-delay="0.2">
+            <div class="d-inline-flex flex-wrap gap-3 justify-content-center">
+              <span class="badge bg-light text-dark p-3 rounded-pill shadow-sm"><i class="fas fa-check-circle text-success me-1"></i> 100% Halal</span>
+              <span class="badge bg-light text-dark p-3 rounded-pill shadow-sm"><i class="fas fa-leaf me-1 text-success"></i> Bahan Segar</span>
+              <span class="badge bg-light text-dark p-3 rounded-pill shadow-sm"><i class="fas fa-clock me-1 text-warning"></i> Tepat Jadwal</span>
+              <span class="badge bg-light text-dark p-3 rounded-pill shadow-sm"><i class="fas fa-hand-sparkles me-1"></i> Higienis</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PENGALAMAN LAYANAN & KEUNGGULAN -->
+      <section id="experience" class="py-5 bg-light" style="background: #fefaf5 !important">
+        <div class="container py-3">
+          <div class="text-center mb-5 scroll-reveal-up" data-delay="0.1">
+            <h2 class="section-title">Pengalaman Layanan & Keunggulan</h2>
+            <p class="section-sub">Nazailla Catering telah terpercaya menemani momen istimewa Anda</p>
+          </div>
+          <div class="row g-5">
+            <div class="col-lg-6 scroll-reveal-left" data-delay="0.1">
+              <div class="experience-card">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                  <i class="fas fa-calendar-check fa-2x" style="color: #f9844a"></i>
+                  <h3 class="h4 fw-bold mb-0">Pengalaman Layanan</h3>
+                </div>
+                <p class="text-muted mb-4">Nazailla Catering telah melayani berbagai kegiatan, antara lain:</p>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="event-badge"><i class="fas fa-mosque me-2"></i> Konsumsi kajian & pengajian</div>
+                    <div class="event-badge"><i class="fas fa-home me-2"></i> Acara tasyakuran keluarga</div>
+                    <div class="event-badge"><i class="fas fa-hand-holding-heart me-2"></i> Kegiatan sosial & keagamaan</div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="event-badge"><i class="fas fa-users me-2"></i> Rapat & pertemuan komunitas</div>
+                    <div class="event-badge"><i class="fas fa-church me-2"></i> Peringatan hari besar Islam</div>
+                    <div class="event-badge"><i class="fas fa-birthday-cake me-2"></i> Arisan & syukuran kantor</div>
+                  </div>
+                </div>
+                <div class="mt-4 p-3 rounded-3" style="background: #fff3e2">
+                  <i class="fas fa-quote-left me-2" style="color: #f9844a"></i>
+                  <span class="fst-italic">"Kami Sudah Banyak Sekali melayani Acara Kegiatan"</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 scroll-reveal-right" data-delay="0.15">
+              <div class="experience-card">
+                <div class="d-flex align-items-center gap-3 mb-4">
+                  <i class="fas fa-award fa-2x" style="color: #f9c74f"></i>
+                  <h3 class="h4 fw-bold mb-0">Keunggulan Nazailla Catering</h3>
+                </div>
+                <ul class="excellence-list">
+                  <li><i class="fas fa-check-circle"></i> <strong>✔ Bahan baku segar & halal</strong> – terjamin sertifikasi dan kualitas</li>
+                  <li><i class="fas fa-check-circle"></i> <strong>✔ Rasa rumahan, tidak berlebihan</strong> – comfort food dengan sentuhan tradisional</li>
+                  <li><i class="fas fa-check-circle"></i> <strong>✔ Porsi sesuai harga</strong> – value for money, tanpa mengurangi kenikmatan</li>
+                  <li><i class="fas fa-check-circle"></i> <strong>✔ Bisa custom menu & anggaran</strong> – fleksibel sesuai kebutuhan acara</li>
+                  <li><i class="fas fa-check-circle"></i> <strong>✔ Pelayanan ramah & tepat waktu</strong> – tim profesional dan tepat janji</li>
+                  <li><i class="fas fa-check-circle"></i> <strong>✔ Free konsultasi menu & kemasan premium</strong> – untuk acara formal maupun santai</li>
+                </ul>
+                <div class="mt-3 d-flex gap-2 flex-wrap">
+                  <span class="badge bg-dark rounded-pill px-3 py-2"><i class="fas fa-leaf me-1"></i> Higienis</span>
+                  <span class="badge bg-dark rounded-pill px-3 py-2"><i class="fas fa-truck me-1"></i> Tepat Waktu</span>
+                  <span class="badge bg-dark rounded-pill px-3 py-2"><i class="fas fa-smile me-1"></i> Ramah</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROMO & KETENTUAN PEMESANAN -->
+      <section id="promo" class="py-4">
+        <div class="container">
+          <div class="promo-banner scroll-reveal-zoom" data-delay="0.1">
+            <div class="row align-items-center">
+              <div class="col-lg-7">
+                <span class="promo-badge mb-2"><i class="fas fa-clipboard-list me-1"></i> Ketentuan Pemesanan</span>
+                <h2 class="display-6 fw-bold mt-2">Syarat & Ketentuan Catering</h2>
+                <ul class="mt-3" style="list-style-type: none; padding-left: 0">
+                  <li class="mb-2"><i class="fas fa-check-circle text-dark me-2"></i> ✅ Minimal pemesanan: 20 box</li>
+                  <li class="mb-2"><i class="fas fa-check-circle text-dark me-2"></i> ✅ Pemesanan maksimal H-2 sebelum acara</li>
+                  <li class="mb-2"><i class="fas fa-check-circle text-dark me-2"></i> ✅ Harga dapat menyesuaikan jumlah & menu pilihan</li>
+                  <li class="mb-2"><i class="fas fa-check-circle text-dark me-2"></i> ✅ Gratis ongkir untuk area tertentu (Hubungi Kami Saja)</li>
+                </ul>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                  <a href="https://wa.me/6283829671576?text=Halo%20Nazaila%20Catering" class="btn btn-dark rounded-pill px-4 py-2" style="text-decoration: none; color: white">Order Sekarang <i class="fab fa-whatsapp ms-1"></i></a>
+                  <button class="btn btn-outline-light rounded-pill px-4 py-2" onclick="alert('Hubungi kami untuk info promo lengkap!')" style="color: black; background-color: #f8f9fa; box-shadow: 1px 1px">Lihat Semua Promo</button>
+                </div>
+              </div>
+              <div class="col-lg-5 text-center mt-4 mt-lg-0">
+                <i class="fas fa-notes-medical" style="font-size: 4rem; color: #f9844a"></i>
+                <i class="fas fa-file-signature ms-3" style="font-size: 3.5rem; color: #f9c74f"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAKET MENU & PENAWARAN HARGA -->
+      <section class="py-5">
+        <div class="container">
+          <div class="text-center mb-5 scroll-reveal-up" data-delay="0.1">
+            <h2 class="section-title">Paket Menu & Penawaran Harga</h2>
+            <p class="section-sub">Pilihan hemat & spesial untuk berbagai acara Anda</p>
+          </div>
+          <div class="row g-4">
+            <div class="col-md-4 scroll-reveal-up" data-delay="0.05">
+              <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body text-center p-4">
+                  <h3 class="fw-bold">Paket Nasi Box Hemat</h3>
+                  <p class="display-6 fw-bold text-warning">Rp 17.500<small class="fs-6">/ box</small></p>
+                  <ul class="list-unstyled mt-3">
+                    <li><i class="fas fa-check-circle text-warning me-2"></i> Nasi putih</li>
+                    <li><i class="fas fa-check-circle text-warning me-2"></i> Ayam goreng / Ayam kecap</li>
+                    <li><i class="fas fa-check-circle text-warning me-2"></i> Tumis sayur</li>
+                    <li><i class="fas fa-check-circle text-warning me-2"></i> Tempe/Tahu Goreng</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 scroll-reveal-up" data-delay="0.1">
+              <div class="card border-0 shadow-lg rounded-4 h-100" style="border-top: 4px solid #f9c74f">
+                <div class="card-body text-center p-4">
+                  <span class="badge bg-warning text-dark mb-2">Spesial</span>
+                  <h3 class="fw-bold">Paket Aqiqah</h3>
+                  <p class="display-6 fw-bold text-warning">
+                    Mulai <small class="fs-6"><br />Rp 2.500.000</small>
+                  </p>
+                  <ul class="list-unstyled mt-3">
+                    <li><i class="fas fa-check-circle text-warning me-2"></i> Olahan kambing lengkap + nasi box</li>
+                    <li><i class="fas fa-check-circle text-warning me-2"></i> Menu & jumlah box menyesuaikan</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 scroll-reveal-up" data-delay="0.15">
+              <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body text-center p-4">
+                  <h3 class="fw-bold">Paket Nasi Box Spesial</h3>
+                  <p class="display-6 fw-bold text-warning">Rp 25.000<small class="fs-6"> / box</small></p>
+                  <ul class="list-unstyled mt-3">
+                    <li><i class="fas fa-check-circle text-warning me-2"></i> Nasi putih + pilihan ayam (goreng/serundeng/bakar/lengkuas)</li>
+                    <li><i class="fas fa-check-circle text-warning me-2"></i> Tumis sayur, tempe/tahu goreng/perkedel jagung</li>
+                    <li><i class="fas fa-check-circle text-warning me-2"></i> Sambal & lalapan, buah potong/pisang</li>
+                    <li><i class="fas fa-check-circle text-warning me-2"></i> Air mineral + snack tambahan</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mt-5 p-4 rounded-4 scroll-reveal-up" style="background: #fef4e8" data-delay="0.2">
+            <i class="fas fa-crown fs-1 text-warning me-2"></i>
+            <span class="fw-semibold">Butuh paket prasmanan atau menu lain? <a href="#contact" class="text-decoration-none fw-bold" style="color: #f9844a">Konsultasi gratis</a> dengan tim Nazailla Catering.</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="contact">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-md-5 scroll-reveal-left" data-delay="0.1">
+            <h3 class="fw-bold" style="color: #f9c74f">Nazailla<span style="color: white">Catering</span></h3>
+            <p class="mt-3 text-light">Dengan pengalaman dan komitmen pelayanan yang amanah, Nazailla Catering siap menjadi mitra konsumsi terpercaya untuk berbagai kebutuhan acara.</p>
+            <div class="mt-3">
+              <a href="https://www.instagram.com/nazailla_catering?igsh=MWQxNmQ4b2Y4bWt3eQ%3D%3D&utm_source=ig_contact_invite" class="me-3 fs-5"><i class="fab fa-instagram"></i></a>
+              <a href="https://wa.me/6283829671576?text=Halo%20Nazaila%20Catering" class="me-3 fs-5"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+          <div class="col-md-3 scroll-reveal-up" data-delay="0.15">
+            <h5 class="fw-semibold mb-3">Quick Links</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="#home" class="text-decoration-none">Home</a></li>
+              <li class="mb-2"><a href="#menu" class="text-decoration-none">Menu</a></li>
+              <li class="mb-2"><a href="#visimisi" class="text-decoration-none">Visi & Misi</a></li>
+              <li class="mb-2"><a href="#experience" class="text-decoration-none">Experience</a></li>
+              <li class="mb-2"><a href="#promo" class="text-decoration-none">Offers & Terms</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4 scroll-reveal-right" data-delay="0.2">
+            <h5 class="fw-semibold mb-3">Contact & Hours</h5>
+            <p><i class="fas fa-map-marker-alt me-2 text-warning"></i> Jl. Inhofftank No. 37 RT03 / RW06 Kota Bandung</p>
+            <p><i class="fas fa-phone-alt me-2 text-warning"></i> 08882031626 / 083829671576</p>
+            <p><i class="far fa-clock me-2 text-warning"></i> Setiap Hari</p>
+          </div>
+        </div>
+        <hr class="mt-4 opacity-25" />
+        <div class="text-center pt-2 pb-3 scroll-reveal-up" data-delay="0.1">
+          <small
+            >&copy; Web Developer terpercaya
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-balloon-heart-fill" viewBox="0 0 16 16">
+              <path
+                fill-rule="evenodd"
+                d="M8.49 10.92C19.412 3.382 11.28-2.387 8 .986 4.719-2.387-3.413 3.382 7.51 10.92l-.234.468a.25.25 0 1 0 .448.224l.04-.08c.009.17.024.315.051.45.068.344.208.622.448 1.102l.013.028c.212.422.182.85.05 1.246-.135.402-.366.751-.534 1.003a.25.25 0 0 0 .416.278l.004-.007c.166-.248.431-.646.588-1.115.16-.479.212-1.051-.076-1.629-.258-.515-.365-.732-.419-1.004a2 2 0 0 1-.037-.289l.008.017a.25.25 0 1 0 .448-.224l-.235-.468ZM6.726 1.269c-1.167-.61-2.8-.142-3.454 1.135-.237.463-.36 1.08-.202 1.85.055.27.467.197.527-.071.285-1.256 1.177-2.462 2.989-2.528.234-.008.348-.278.14-.386"
+              />
+            </svg>
+            <a href="https://www.instagram.com/arkdev.id" style="text-decoration: none; font-weight: bold; color: white">@arkdev.id</a>
+          </small>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      (function () {
+        // SCROLL REVEAL ENGINE - pure CSS + intersection observer
+        const revealElements = document.querySelectorAll(".scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .scroll-reveal-up, .scroll-reveal-zoom");
+
+        // set initial opacity & transform style inline to prevent flickering
+        revealElements.forEach((el) => {
+          // add default class for transition but ensure they start hidden
+          if (el.classList.contains("scroll-reveal")) {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(35px)";
+          } else if (el.classList.contains("scroll-reveal-left")) {
+            el.style.opacity = "0";
+            el.style.transform = "translateX(-40px)";
+          } else if (el.classList.contains("scroll-reveal-right")) {
+            el.style.opacity = "0";
+            el.style.transform = "translateX(40px)";
+          } else if (el.classList.contains("scroll-reveal-up")) {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(40px)";
+          } else if (el.classList.contains("scroll-reveal-zoom")) {
+            el.style.opacity = "0";
+            el.style.transform = "scale(0.96)";
+          }
+          // preserve transition from CSS
+          el.style.transition = "opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1)";
+        });
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const el = entry.target;
+                // add revealed class to trigger transition to visible
+                el.classList.add("revealed");
+                // also remove inline overrides to let final values apply
+                el.style.opacity = "";
+                el.style.transform = "";
+                observer.unobserve(el);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -30px 0px" },
+        );
+
+        revealElements.forEach((el) => observer.observe(el));
+
+        // small fix for hero elements that already had inline? but we ensure all good
+        // also manually handle if some element is very visible on load
+        window.addEventListener("load", () => {
+          revealElements.forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100) {
+              // if already visible on load
+              el.classList.add("revealed");
+              el.style.opacity = "";
+              el.style.transform = "";
+              observer.unobserve(el);
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
